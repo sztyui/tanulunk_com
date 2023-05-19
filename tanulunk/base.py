@@ -89,7 +89,7 @@ class TanulunkFiller:
     def run(self) -> None:
         """Main runner, acts like facade."""
         if not self.click_on_bouns_tab():
-            logger.error("bouns card not found!")
+            logger.error("bonus card not found")
         time.sleep(4)
         while True:
             if not self.watch_video():
