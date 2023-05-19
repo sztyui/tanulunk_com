@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 from venv import logger
 
-import pyautogui
+import pyautogui  # pylint: disable=E0401
 
 
 class TanulunkFiller:
