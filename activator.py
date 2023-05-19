@@ -1,4 +1,5 @@
 import logging
+import time
 from pathlib import Path
 
 import pyautogui
@@ -34,6 +35,8 @@ class TanulunkFiller:
     def run(self):
         """Main runner, acts like facade."""
         self.click_coupon()
+        time.sleep(1)
+        self.watch_advertisment()
 
 
 if __name__ == "__main__":
