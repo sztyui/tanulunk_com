@@ -22,7 +22,7 @@ class TanulunkFiller:
             self.config["images"][name], confidence=confidence
         )
         if not button:
-            logging.error(f"button not found: {name}")
+            logging.error("button not found: %s", name)
             return False
         pyautogui.click(button)
         return True
@@ -63,15 +63,19 @@ class TanulunkFiller:
             logger.error("bouns card not found!")
         while True:
             if not self.click_coupon():
+                logging.error("coupon not found")
                 return
             time.sleep(self.delay)
             if not self.watch_advertisment():
+                logging.error("advertisment button not found")
                 return
             time.sleep(self.delay)
             if not self.play_video():
+                logging.error("play video button not found")
                 return
             time.sleep(self.delay)
             self.wait_until_vide_ends()
             if not self.click_on_back_button():
+                logging.error("back button not found")
                 return
             time.sleep(self.delay)
