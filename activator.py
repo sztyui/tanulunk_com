@@ -12,15 +12,24 @@ class TanulunkFiller:
     def __init__(self, config):
         self.config = config
 
-    def click_coupon(self):
-        """Clicking on coupon button"""
+    def _click_button(self, name: str) -> bool:
+        if name not in self.config["images"]:
+            raise AttributeError(f"no button: {name}")
         button = pyautogui.locateCenterOnScreen(
-            self.config["images"]["coupon"], confidence=0.8
+            self.config["images"][name], confidence=0.8
         )
         if not button:
-            logging.error("Button not found!")
-            return
+            logging.error(f"button not found: {name}")
+            return False
         pyautogui.click(button)
+        return True
+
+    def click_coupon(self) -> bool:
+        """Clicking on coupon button"""
+        return self._click_button("coupon")
+
+    def watch_advertisment(self):
+        return self._click_button("advertisment")
 
     def run(self):
         """Main runner, acts like facade."""
