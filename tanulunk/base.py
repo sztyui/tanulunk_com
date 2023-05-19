@@ -1,5 +1,6 @@
 """Tanulunk.com filler representation class extending pyautogui"""
 
+import datetime
 import logging
 import time
 from pathlib import Path
@@ -58,7 +59,12 @@ class TanulunkFiller:
 
     def wait_until_vide_ends(self):
         """Search for video end screen"""
+        start = datetime.datetime.now()
         while True:
+            delta = datetime.datetime.now() - start
+            if delta.seconds > 600:
+                raise ValueError("the video has not finished yet")
+
             ends = pyautogui.locateCenterOnScreen(
                 self.config["images"]["video_end"], confidence=0.8
             )
@@ -84,7 +90,11 @@ class TanulunkFiller:
             return False
         if not self.play_video():
             return False
-        self.wait_until_vide_ends()
+        try:
+            self.wait_until_vide_ends()
+        except ValueError as err:
+            logger.error(err)
+            return False
         if not self.click_on_back_button():
             return False
         return True
