@@ -1,6 +1,9 @@
+"""Tanulunk.com form filler for bonus coupons."""
+
 import logging
 import time
 from pathlib import Path
+from venv import logger
 
 import pyautogui
 
@@ -52,8 +55,14 @@ class TanulunkFiller:
         """Click on back button upon video finish."""
         return self._click_button("back")
 
+    def click_on_bouns_tab(self) -> bool:
+        """Clicks on bonus tab in menu."""
+        return self._click_button("bonus_tab")
+
     def run(self):
         """Main runner, acts like facade."""
+        if not self.click_on_bouns_tab():
+            logger.error("bouns card not found!")
         while True:
             if not self.click_coupon():
                 return
