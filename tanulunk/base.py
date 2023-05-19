@@ -7,28 +7,15 @@ from pathlib import Path
 from venv import logger
 
 import pyautogui  # pylint: disable=E0401
-
-
-def wait_delay(timeout):
-    """Waits delay after function call"""
-
-    def decorate(function):
-        def wrapper(*args, **kwargs):
-            output = function(*args, **kwargs)
-            time.sleep(timeout)
-            return output
-
-        return wrapper
-
-    return decorate
+from wait import wait_delay
 
 
 class TanulunkFiller:
     """Helps to full tanulunk.com and runs coupons"""
 
-    def __init__(self, config: Path, delay: int = 2):
-        self.config = config
-        self.delay = delay
+    def __init__(self, config: Path, delay: int = 2) -> None:
+        self.config: Path = config
+        self.delay: int = delay
 
     def _click_button(self, name: str, confidence: bool = 0.8) -> bool:
         if name not in self.config["images"]:
@@ -48,7 +35,7 @@ class TanulunkFiller:
         return self._click_button("coupon")
 
     @wait_delay(2)
-    def watch_advertisment(self):
+    def watch_advertisment(self) -> bool:
         """Click on watch advertisment button"""
         return self._click_button("advertisment")
 
@@ -57,7 +44,7 @@ class TanulunkFiller:
         """Click on play video button"""
         return self._click_button(name="play", confidence=0.9)
 
-    def wait_until_vide_ends(self):
+    def wait_until_vide_ends(self) -> None:
         """Search for video end screen"""
         start = datetime.datetime.now()
         while True:
@@ -99,7 +86,7 @@ class TanulunkFiller:
             return False
         return True
 
-    def run(self):
+    def run(self) -> None:
         """Main runner, acts like facade."""
         if not self.click_on_bouns_tab():
             logger.error("bouns card not found!")
