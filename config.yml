@@ -1,3 +1,6 @@
 images:
   coupon: jpg/coupon.jpg
   advertisment: jpg/watch_advertisment.jpg
+  play: jpg/play_video.jpg
+  video_end: jpg/wait_until.jpg
+  back: jpg/back_button.jpg
