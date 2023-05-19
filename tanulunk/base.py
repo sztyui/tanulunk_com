@@ -8,6 +8,20 @@ from venv import logger
 import pyautogui  # pylint: disable=E0401
 
 
+def wait_delay(timeout):
+    """Waits delay after function call"""
+
+    def decorate(function):
+        def wrapper(*args, **kwargs):
+            output = function(*args, **kwargs)
+            time.sleep(timeout)
+            return output
+
+        return wrapper
+
+    return decorate
+
+
 class TanulunkFiller:
     """Helps to full tanulunk.com and runs coupons"""
 
@@ -27,14 +41,17 @@ class TanulunkFiller:
         pyautogui.click(button)
         return True
 
+    @wait_delay(2)
     def click_coupon(self) -> bool:
         """Clicking on coupon button"""
         return self._click_button("coupon")
 
+    @wait_delay(2)
     def watch_advertisment(self):
         """Click on watch advertisment button"""
         return self._click_button("advertisment")
 
+    @wait_delay(2)
     def play_video(self) -> bool:
         """Click on play video button"""
         return self._click_button(name="play", confidence=0.9)
@@ -49,10 +66,12 @@ class TanulunkFiller:
                 return
             time.sleep(self.delay)
 
+    @wait_delay(2)
     def click_on_back_button(self) -> bool:
         """Click on back button upon video finish."""
         return self._click_button("back")
 
+    @wait_delay(4)
     def click_on_bouns_tab(self) -> bool:
         """Clicks on bonus tab in menu."""
         return self._click_button("bonus_tab")
@@ -61,17 +80,13 @@ class TanulunkFiller:
         """Watchi video process."""
         if not self.click_coupon():
             return False
-        time.sleep(self.delay)
         if not self.watch_advertisment():
             return False
-        time.sleep(self.delay)
         if not self.play_video():
             return False
-        time.sleep(self.delay)
         self.wait_until_vide_ends()
         if not self.click_on_back_button():
             return False
-        time.sleep(self.delay)
         return True
 
     def run(self):
