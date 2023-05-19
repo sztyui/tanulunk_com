@@ -57,25 +57,31 @@ class TanulunkFiller:
         """Clicks on bonus tab in menu."""
         return self._click_button("bonus_tab")
 
+    def watch_video(self) -> bool:
+        """Watchi video process."""
+        if not self.click_coupon():
+            logging.error("coupon not found")
+            return False
+        time.sleep(self.delay)
+        if not self.watch_advertisment():
+            logging.error("advertisment button not found")
+            return False
+        time.sleep(self.delay)
+        if not self.play_video():
+            logging.error("play video button not found")
+            return False
+        time.sleep(self.delay)
+        self.wait_until_vide_ends()
+        if not self.click_on_back_button():
+            logging.error("back button not found")
+            return False
+        time.sleep(self.delay)
+        return True
+
     def run(self):
         """Main runner, acts like facade."""
         if not self.click_on_bouns_tab():
             logger.error("bouns card not found!")
         while True:
-            if not self.click_coupon():
-                logging.error("coupon not found")
-                return
-            time.sleep(self.delay)
-            if not self.watch_advertisment():
-                logging.error("advertisment button not found")
-                return
-            time.sleep(self.delay)
-            if not self.play_video():
-                logging.error("play video button not found")
-                return
-            time.sleep(self.delay)
-            self.wait_until_vide_ends()
-            if not self.click_on_back_button():
-                logging.error("back button not found")
-                return
-            time.sleep(self.delay)
+            if not self.watch_video():
+                break
