@@ -7,7 +7,8 @@ from pathlib import Path
 from venv import logger
 
 import pyautogui  # pylint: disable=E0401
-from wait import wait_delay
+
+from .wait import wait_delay
 
 
 class TanulunkFiller:
@@ -44,7 +45,7 @@ class TanulunkFiller:
         """Click on play video button"""
         return self._click_button(name="play", confidence=0.9)
 
-    def wait_until_vide_ends(self) -> None:
+    def wait_until_video_ends(self) -> None:
         """Search for video end screen"""
         start = datetime.datetime.now()
         while True:
@@ -67,7 +68,7 @@ class TanulunkFiller:
     @wait_delay(4)
     def click_on_bouns_tab(self) -> bool:
         """Clicks on bonus tab in menu."""
-        return self._click_button("bonus_tab")
+        return self._click_button("bonus_tab", confidence=0.7)
 
     def watch_video(self) -> bool:
         """Watchi video process."""
@@ -78,7 +79,7 @@ class TanulunkFiller:
         if not self.play_video():
             return False
         try:
-            self.wait_until_vide_ends()
+            self.wait_until_video_ends()
         except ValueError as err:
             logger.error(err)
             return False
@@ -88,9 +89,12 @@ class TanulunkFiller:
 
     def run(self) -> None:
         """Main runner, acts like facade."""
-        if not self.click_on_bouns_tab():
-            logger.error("bonus card not found")
-        time.sleep(4)
+        logger.info(
+            "Place tanulunk.com at the main screen at full, and minimize this window."
+        )
+        time.sleep(5)
+        self.click_on_bouns_tab()
+        time.sleep(2)
         while True:
             if not self.watch_video():
                 break
