@@ -8,7 +8,7 @@ from venv import logger
 
 import pyautogui  # pylint: disable=E0401
 
-from .wait import wait_delay
+from tanulunk.wait import wait_delay
 
 
 class TanulunkFiller:
