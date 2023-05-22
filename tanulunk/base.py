@@ -4,7 +4,6 @@ import datetime
 import logging
 import time
 from pathlib import Path
-from venv import logger
 
 import pyautogui  # pylint: disable=E0401
 
@@ -89,12 +88,11 @@ class TanulunkFiller:
 
     def run(self) -> None:
         """Main runner, acts like facade."""
-        logger.info(
+        logging.info(
             "Place tanulunk.com at the main screen at full, and minimize this window."
         )
         time.sleep(5)
         self.click_on_bouns_tab()
-        time.sleep(2)
         while True:
             if not self.watch_video():
                 break
