@@ -80,7 +80,7 @@ class TanulunkFiller:
         try:
             self.wait_until_video_ends()
         except ValueError as err:
-            logger.error(err)
+            logging.error(err)
             return False
         if not self.click_on_back_button():
             return False
