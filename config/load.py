@@ -14,9 +14,6 @@ def to_path(filename: str | pathlib.Path) -> pathlib.Path:
 
 def open_config(filename: str | pathlib.Path):
     """Opening configuration from file."""
-    fn_path = to_path(filename)
-    return yaml.safe_load(fn_path.read_text(encoding="UTF-8"))
-
-
-if __name__ == "__main__":
-    open_config("./config.yml")
+    fn_path: pathlib.Path = to_path(filename)
+    content: str = fn_path.read_text(encoding="UTF-8")
+    return yaml.safe_load(content)
